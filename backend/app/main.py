@@ -1,21 +1,13 @@
 from fastapi import FastAPI
 from app.api.health import router as health_router
-from app.api.doctor import router as doctor_router  
-from fastapi import APIRouter
+from app.api.doctor import router as doctor_router
+from app.api.patient import router as patient_router
 from app.core.config import settings
+from app.database.database import Base, engine
+import app.models
 
-router = APIRouter()
 
-
-@router.get("/doctor/{doctor_id}")
-def get_doctor(doctor_id: int):
-
-    return {
-        "doctor_id": doctor_id,
-        "name": "Demo Doctor",
-        "specialization": "General Physician"
-    }
-
+Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI(
@@ -23,13 +15,12 @@ app = FastAPI(
     version=settings.PROJECT_VERSION
 )
 
-
 @app.get("/")
 def home():
     return {
         "message": "Welcome to MedLink AI"
     }
 
-
 app.include_router(health_router)
 app.include_router(doctor_router)
+app.include_router(patient_router)
