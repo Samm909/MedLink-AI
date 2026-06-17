@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
-
+from sqlalchemy.orm import relationship
 from app.database.database import Base
 
 
@@ -18,6 +18,11 @@ class Patient(Base):
 
     blood_group = Column(String, nullable=True)
     address = Column(String, nullable=True)
+    appointments = relationship(
+    "Appointment",
+    back_populates="patient",
+    cascade="all, delete"
+)
 
     created_at = Column(
         DateTime(timezone=True),

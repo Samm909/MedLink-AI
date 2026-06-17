@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-
+from sqlalchemy.orm import relationship
 from app.database.database import Base
 
 
@@ -10,5 +10,10 @@ class Doctor(Base):
     name = Column(String(100), nullable=False)
     specialization = Column(String(100), nullable=False)
     email = Column(String(100), unique=True, nullable=False)
-    phone = Column(String(20), nullable=False)
+    phone = Column(String(20), unique=True, nullable=False)
     experience = Column(Integer, default=0)
+    appointments = relationship(
+    "Appointment",
+    back_populates="doctor",
+    cascade="all, delete"
+)

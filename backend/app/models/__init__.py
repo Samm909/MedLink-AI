@@ -1,2 +1,3 @@
-from app.models.doctor import Doctor
-from app.models.patient import Patient
+from .doctor import Doctor
+from .patient import Patient
+from .appointment import Appointment
